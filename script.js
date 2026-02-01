@@ -8,6 +8,10 @@ const GIFS = [
     label: "YES! You mean it?! 🥰",
   },
   {
+    url: "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3UyZjBsNTFobjV1cjkxY2h5bzQ0eGNmYnFhNnd1d25xNm01dDdmayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/N6funLtVsHW0g/giphy.gifhttps://media.giphy.com/media/26xBBjZ35Q6CMtuI8/giphy.gif",
+    label: "Say yes... please? 🥺",
+  },
+  {
     url: "https://media.giphy.com/media/NxC8VtyxqhMtpLoEEN/giphy.gif",
     label: "I love you so much! 😍",
   },
@@ -16,10 +20,7 @@ const GIFS = [
     label: "Getting so excited! 💖",
   },
   // Neutral
-  {
-    url: "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3UyZjBsNTFobjV1cjkxY2h5bzQ0eGNmYnFhNnd1d25xNm01dDdmayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/N6funLtVsHW0g/giphy.gifhttps://media.giphy.com/media/26xBBjZ35Q6CMtuI8/giphy.gif",
-    label: "Say yes... please? 🥺",
-  },
+ 
   // Getting sad
   {
     url: "https://media.giphy.com/media/qQdL532ZANbjy/giphy.gif",
@@ -204,33 +205,43 @@ document.addEventListener("mousemove", (e) => {
 
   const distYes = dist(mouse, yesCenter);
   const distNo = dist(mouse, noCenter);
+
+  // If you're closer to YES, always show happy gifs (even after clicking NO)
+  const isCloserToYes = distYes <= distNo;
+
+  // Normalize how "close" you are to YES (0 = very close, 1 = far)
+  const closeness = clamp(distYes / 500, 0, 1);
+
+  if (isCloserToYes) {
+    // Happy range: indices 0..2
+    const happyMax = 2;
+    const happyIndex = Math.round(closeness * happyMax);
+    showGif(happyIndex);
+  } else {
+    // Sad/neutral range: indices 3..end
+    const sadStart = Math.max(minGifIndex, 3);
+    const sadEnd = GIFS.length - 1;
+    const sadRange = Math.max(1, sadEnd - sadStart);
+
+    // How close you are to NO (0 = very close to NO, 1 = far)
+    const awayFromNo = clamp(distNo / 500, 0, 1);
+    const sadIndex = sadStart + Math.round((1 - awayFromNo) * sadRange);
+
+    showGif(clamp(sadIndex, sadStart, sadEnd));
+  }
+
+  // Proximity bar (keep your original "ratio-ish" feeling)
   const total = distYes + distNo || 1;
   const ratio = distYes / total;
 
-  // GIF switching — respects minimum sadness level
-  const maxIndex = GIFS.length - 1;
-  const range = maxIndex - minGifIndex;
-  let gifIndex;
-  if (range <= 0) {
-    gifIndex = maxIndex;
-  } else {
-    gifIndex =
-      minGifIndex + Math.min(range, Math.max(0, Math.round(ratio * range)));
-  }
-  showGif(gifIndex);
-
-  // Proximity bar
   proximityFill.style.width = (1 - ratio) * 100 + "%";
+
   if (ratio < 0.35) {
     proximityFill.style.background = "linear-gradient(90deg, #e74c3c, #ff6b81)";
-    proximityLabel.textContent = isSadMode
-      ? "💖 There's still hope..."
-      : "💖 So close to YES!";
+    proximityLabel.textContent = isSadMode ? "💖 There's still hope..." : "💖 So close to YES!";
   } else if (ratio > 0.65) {
     proximityFill.style.background = "linear-gradient(90deg, #7f8c8d, #2d3436)";
-    proximityLabel.textContent = isSadMode
-      ? "💔 Stop... please..."
-      : "💔 Please don't...";
+    proximityLabel.textContent = isSadMode ? "💔 Stop... please..." : "💔 Please don't...";
   } else {
     proximityFill.style.background = "linear-gradient(90deg, #f39c12, #e67e22)";
     proximityLabel.textContent = isSadMode ? "😢 Just say yes..." : "💕 Hmm...";
