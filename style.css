@@ -290,37 +290,56 @@ body.sad .btn-yes {
 
 /* ========== Responsive ========== */
 
-@media (max-width: 480px) {
-  h1 { font-size: 2.5rem; }
-  .gif-container { width: 250px; height: 250px; }
-  .buttons { width: 95vw; padding: 0 1rem; }
-  .btn { padding: 14px 36px; font-size: 1rem; }
-}
+/* Mobile warning overlay (desktop OFF by default) */
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+
 #mobileWarning {
-  display: none;
+  display: none;            /* ✅ IMPORTANT: hidden on desktop */
   position: fixed;
   inset: 0;
-  background: linear-gradient(135deg, #000000, #ffffff);
   z-index: 9999;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  font-family: 'Arial', sans-serif;
-  padding: 2rem;
+
+  /* make it look NOTHING like the main site */
+  background: radial-gradient(circle at 20% 20%, #0b0f19, #000 60%);
+  color: #e8e8e8;
+
+  font-family: 'Space Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  padding: 28px 22px;
+  text-align: left;
+
+  /* layout */
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+#mobileWarning .cw-badge {
+  display: inline-block;
+  padding: 8px 12px;
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 999px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 12px;
+  opacity: 0.85;
+  margin-bottom: 18px;
 }
 
 #mobileWarning h1 {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
+  font-size: 28px;
+  line-height: 1.2;
+  margin-bottom: 10px;
+  font-weight: 700;
 }
 
 #mobileWarning p {
-  font-size: 1.2rem;
+  font-size: 14px;
+  line-height: 1.6;
+  opacity: 0.9;
+  max-width: 34ch;
 }
 
-/* Hide site on small screens */
+/* Show only on mobile/small screens */
 @media (max-width: 900px) {
   .container,
   .hearts-bg,
@@ -329,6 +348,6 @@ body.sad .btn-yes {
   }
 
   #mobileWarning {
-    display: flex;
+    display: flex;          /* ✅ only turns on for mobile */
   }
 }

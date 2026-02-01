@@ -399,20 +399,4 @@ document.addEventListener("touchmove", (e) => {
     }),
   );
 });
-if (window.innerWidth < 900) {
-  document.body.innerHTML = `
-    <div style="
-      height:100vh;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      flex-direction:column;
-      font-family:Poppins,sans-serif;
-      background:linear-gradient(135deg,#ff9a9e,#fad0c4);
-      text-align:center;
-    ">
-      <h1>🚫 Mobile Not Supported</h1>
-      <p>Please open this website on a laptop or desktop 💻</p>
-    </div>
-  `;
-}
+
