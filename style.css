@@ -296,3 +296,39 @@ body.sad .btn-yes {
   .buttons { width: 95vw; padding: 0 1rem; }
   .btn { padding: 14px 36px; font-size: 1rem; }
 }
+#mobileWarning {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  padding: 2rem;
+}
+
+#mobileWarning h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+#mobileWarning p {
+  font-size: 1.2rem;
+}
+
+/* Hide site on small screens */
+@media (max-width: 900px) {
+  .container,
+  .hearts-bg,
+  .celebration {
+    display: none !important;
+  }
+
+  #mobileWarning {
+    display: flex;
+  }
+}
