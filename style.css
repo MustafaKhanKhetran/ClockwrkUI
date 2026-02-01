@@ -1,0 +1,298 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@400;600&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+  background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #ffecd2 100%);
+  transition: background 1.2s ease;
+}
+
+body.sad {
+  background: linear-gradient(135deg, #636e72 0%, #b2bec3 50%, #dfe6e9 100%);
+}
+
+/* ========== Floating Emojis ========== */
+
+.hearts-bg {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.floating-heart {
+  position: absolute;
+  bottom: -10%;
+  animation: floatUp linear infinite;
+  opacity: 0.6;
+  user-select: none;
+}
+
+@keyframes floatUp {
+  0%   { transform: translateY(0) rotate(0deg) scale(1); opacity: 0.7; }
+  50%  { opacity: 0.9; }
+  100% { transform: translateY(-110vh) rotate(360deg) scale(0.5); opacity: 0; }
+}
+
+/* ========== Main Content ========== */
+
+.container {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 2rem;
+  width: 100%;
+}
+
+h1 {
+  font-family: 'Dancing Script', cursive;
+  font-size: 3.5rem;
+  color: #c0392b;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+  margin-bottom: 0.5rem;
+  animation: fadeInDown 1s ease;
+  transition: color 1s ease;
+}
+body.sad h1 { color: #636e72; }
+
+.subtitle {
+  font-size: 1.1rem;
+  color: #e74c3c;
+  margin-bottom: 2rem;
+  animation: fadeInDown 1s ease 0.2s both;
+  transition: color 1s ease;
+}
+body.sad .subtitle { color: #95a5a6; }
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ========== GIF Display ========== */
+
+.gif-container {
+  width: 300px; height: 300px;
+  margin: 0 auto 2rem;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(192,57,43,0.3);
+  background: #fff;
+  position: relative;
+  animation: fadeIn 1s ease 0.4s both;
+  transition: box-shadow 1s ease;
+}
+body.sad .gif-container {
+  box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.gif-container img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0; left: 0;
+  transition: opacity 0.5s ease;
+}
+.gif-container img.hidden  { opacity: 0; }
+.gif-container img.visible { opacity: 1; }
+
+.mood-label {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.5));
+  color: white;
+  padding: 1rem 0.5rem 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  z-index: 5;
+}
+
+/* ========== Buttons ========== */
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  animation: fadeIn 1s ease 0.6s both;
+  min-height: 70px;
+  align-items: center;
+  width: 90vw;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.btn {
+  padding: 16px 48px;
+  border: none;
+  border-radius: 50px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-yes {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  color: white;
+  box-shadow: 0 6px 20px rgba(231,76,60,0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.btn-yes:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 30px rgba(231,76,60,0.6);
+}
+
+.btn-no {
+  background: linear-gradient(135deg, #bdc3c7, #95a5a6);
+  color: white;
+  box-shadow: 0 6px 20px rgba(149,165,166,0.4);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), background 1s ease, box-shadow 1s ease;
+  will-change: transform;
+}
+.btn-no:hover {
+  filter: brightness(0.95);
+}
+
+body.sad .btn-no {
+  background: linear-gradient(135deg, #636e72, #2d3436);
+}
+
+body.sad .btn-yes {
+  animation: pulseYes 1.5s ease infinite;
+}
+@keyframes pulseYes {
+  0%, 100% { transform: scale(1); box-shadow: 0 6px 20px rgba(231,76,60,0.4); }
+  50%      { transform: scale(1.08); box-shadow: 0 8px 30px rgba(231,76,60,0.6); }
+}
+
+/* ========== Proximity Indicator ========== */
+
+.proximity-bar {
+  width: 200px; height: 6px;
+  background: #ddd;
+  border-radius: 3px;
+  margin: 1rem auto;
+  overflow: hidden;
+  animation: fadeIn 1s ease 0.8s both;
+}
+
+.proximity-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s ease, background 0.6s ease;
+  width: 50%;
+  background: #95a5a6;
+}
+
+.proximity-label {
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  animation: fadeIn 1s ease 0.8s both;
+  color: #888;
+}
+
+/* ========== Sad Rainfall ========== */
+
+.rain-drop {
+  position: absolute;
+  top: -5%;
+  animation: rainFall linear forwards;
+  opacity: 0.8;
+  user-select: none;
+  pointer-events: none;
+}
+
+@keyframes rainFall {
+  0%   { transform: translateY(0); opacity: 0.9; }
+  100% { transform: translateY(110vh); opacity: 0.2; }
+}
+
+/* ========== Celebration Overlay ========== */
+
+.celebration {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(135deg, #ff6b81, #ff4757);
+  z-index: 100;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.celebration.active {
+  display: flex;
+  animation: celebrationIn 0.5s ease;
+}
+@keyframes celebrationIn {
+  from { opacity: 0; transform: scale(1.1); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.celebration h1 {
+  font-size: 4rem; color: white;
+  text-shadow: 3px 3px 6px rgba(0,0,0,0.2);
+  margin-bottom: 1rem;
+}
+.celebration p {
+  font-size: 1.5rem;
+  color: rgba(255,255,255,0.9);
+  margin-bottom: 2rem;
+}
+.celebration .gif-container {
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+}
+
+/* ========== Confetti ========== */
+
+.confetti-piece {
+  position: fixed;
+  width: 10px; height: 10px;
+  top: -10px;
+  z-index: 101;
+  animation: confettiFall linear forwards;
+}
+@keyframes confettiFall {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+/* ========== Celebration Emoji Rain ========== */
+
+.celebration-drop {
+  position: fixed;
+  top: -5%;
+  z-index: 102;
+  animation: celebrationFall linear forwards;
+  user-select: none;
+  pointer-events: none;
+}
+
+@keyframes celebrationFall {
+  0%   { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
+  70%  { opacity: 1; }
+  100% { transform: translateY(105vh) rotate(360deg) scale(0.6); opacity: 0; }
+}
+
+/* ========== Responsive ========== */
+
+@media (max-width: 480px) {
+  h1 { font-size: 2.5rem; }
+  .gif-container { width: 250px; height: 250px; }
+  .buttons { width: 95vw; padding: 0 1rem; }
+  .btn { padding: 14px 36px; font-size: 1rem; }
+}
